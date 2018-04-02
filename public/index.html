@@ -22,6 +22,7 @@
   <!-- Create a div for each graph -->
   <div id="salary"></div>
   <div id="popular"></div>
+  <div id="popularW"></div>
   <div id="unemployment"></div>
 
   <!-- Assign the graph to display in each div -->
@@ -31,6 +32,9 @@
   });
   $.getJSON('js/popular.json', function(data) {
     vegaEmbed("#popular", data);
+  });
+  $.getJSON('js/popularW.json', function(data) {
+    vegaEmbed("#popularW", data);
   });
   $.getJSON('js/unemployment.json', function(data) {
     vegaEmbed("#unemployment", data);
