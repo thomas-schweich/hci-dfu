@@ -1,0 +1,58 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v3.json",
+  "width": 200,
+  "height": 200,
+
+  "data": [
+    {
+      "name": "women_majors",
+      "url": "https://raw.githubusercontent.com/thomas-schweich/hci-dfu/master/public/assets/recent-grads.csv",
+      "format": {"type": "csv"},
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["Major_category"],
+          "fields": ["Women", "Women"],
+          "ops": ["mean", "count"],
+          "as": ["Women_mean", "majors"]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.Women_mean * datum.majors",
+          "as": "Women_totals"
+        },
+        {
+          "type": "pie",
+          "field": "Women_totals"
+        }
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "color",
+      "type": "ordinal",
+      "range": {"scheme": "category20b"}
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "arc",
+      "from": {"data": "women_majors"},
+      "encode": {
+        "enter": {
+          "x": {"field": {"group": "width"}, "mult": 0.5},
+          "y": {"field": {"group": "height"}, "mult": 0.5},
+          "startAngle": {"field": "startAngle"},
+          "endAngle": {"field": "endAngle"},
+          "innerRadius": {"value": 0},
+          "outerRadius": {"value": 80},
+          "fill": {"scale": "color", "field": "Major_category"},
+          "tooltip": {"field": "Women_totals","type": "quantitative"}
+        }
+      }
+    }
+  ]
+}
