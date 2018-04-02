@@ -2,18 +2,55 @@
   "$schema": "https://vega.github.io/schema/vega/v3.json",
   "width": 200,
   "height": 200,
-  "autosize": "none",
-"data": {
+
+  "data": [
+    {
+      "name": "men_majors",
       "url": "https://raw.githubusercontent.com/thomas-schweich/hci-dfu/master/public/assets/recent-grads.csv",
-      "format": {
-        "type": "csv"
-      }
-	  "transform": [
+      "format": {"type": "csv"},
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["Major_category"],
+          "fields": ["Men", "Men"],
+          "ops": ["mean", "count"],
+          "as": ["Men_mean", "majors"]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.Men_mean * datum.majors",
+          "as": "Men_totals"
+        },
         {
           "type": "pie",
-          "field": "data"
-        }]
-	},
+          "field": "Men_totals"
+        }
+      ]
+    },
+    {
+      "name": "women_majors",
+      "url": "https://raw.githubusercontent.com/thomas-schweich/hci-dfu/master/public/assets/recent-grads.csv",
+      "format": {"type": "csv"},
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["Major_category"],
+          "fields": ["Women", "Women"],
+          "ops": ["mean", "count"],
+          "as": ["Women_mean", "majorsW"]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.Women_mean * datum.majorsW",
+          "as": "Women_totals"
+        },
+        {
+          "type": "pie",
+          "field": "Women_totals"
+        }
+      ]
+    }
+  ],
 
   "scales": [
     {
@@ -26,20 +63,16 @@
   "marks": [
     {
       "type": "arc",
-      "from": {"data": "table"},
+      "from": {"data": "men_majors"},
       "encode": {
         "enter": {
-          "fill": {"scale": "color", "field": "id"},
-          "x": {"signal": "width / 2"},
-          "y": {"signal": "height / 2"}
-        },
-        "update": {
+          "x": {"field": {"group": "width"}, "mult": 0.5},
+          "y": {"field": {"group": "height"}, "mult": 0.5},
           "startAngle": {"field": "startAngle"},
           "endAngle": {"field": "endAngle"},
-          "padAngle": {"signal": "padAngle"},
-          "innerRadius": {"signal": "innerRadius"},
-          "outerRadius": {"signal": "width / 2"},
-          "cornerRadius": {"signal": "cornerRadius"}
+          "innerRadius": {"value": 0},
+          "outerRadius": {"value": 80},
+          "fill": {"scale": "color", "field": "Major_category"}
         }
       }
     }
