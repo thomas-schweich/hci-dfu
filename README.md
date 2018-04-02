@@ -3,7 +3,7 @@
 
 ### Viewing the website
 
-Go to `https://floating-falls-75499.herokuapp.com/`
+Go to https://floating-falls-75499.herokuapp.com/
 
 ### Deploying to the website
 
