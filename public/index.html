@@ -25,17 +25,38 @@
   // Assign the specification to a local variable vlSpec.
   var vlSpec = {
     "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-    "data": {"url": "assets/all-ages.csv"},
-    "mark": "line",
+    "data": {
+      "url": "https://raw.githubusercontent.com/thomas-schweich/hci-dfu/master/public/assets/all-ages.csv",
+      "format": {
+        "type": "csv"
+      }
+    },
+    "transform": [
+      {
+        "calculate": "(datum.Unemployed / datum.Total) * 100",
+        "as": "unemployment_rate"
+      }
+    ],
+    "mark": "bar",
     "encoding": {
       "y": {
-        "field": "Unemployed",
+        "field": "unemployment_rate",
         "type": "quantitative",
-        "aggregate": "mean"
+        "aggregate": "mean",
+        "axis": {
+          "title": "Unemployment Rate (%)"  
+        }
       },
       "x": {
-        "field": "P25th",
-        "type": "temporal"
+        "field": "Major_category",
+        "type": "ordinal",
+        "axis": {
+          "title": "Major Category"
+        },
+        "sort":{
+          "field": "unemployment_rate",
+          "op": "mean"
+        }
       }
     }
   };
