@@ -2,7 +2,14 @@
   "$schema": "https://vega.github.io/schema/vega/v3.json",
   "width": 200,
   "height": 200,
-
+  "config": {
+    "title": {
+      "limit": "9000"
+    }
+  },
+  "title": {
+    "text": "Recent Male Grads by Major Category"
+  },
   "data": [
     {
       "name": "men_majors",
