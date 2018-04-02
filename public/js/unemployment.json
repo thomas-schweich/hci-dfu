@@ -6,10 +6,17 @@
         "type": "csv"
       }
     },
+    "width": 1000,
     "transform": [
       {
         "calculate": "(datum.Unemployed / datum.Total) * 100",
         "as": "unemployment_rate"
+      }, {
+        "calculate": "(datum.Major_category == 'Agriculture & Natural Resources' || datum.Major_category == 'Biology & Life Science' || datum.Major_category == 'Engineering' || datum.Major_category == 'Physical Sciences' || datum.Major_category == 'Industrial Arts & Consumer Services' || datum.Major_category == 'Social Science' || datum.Major_category == 'Computers & Mathematics') ? 'Stem' : 'Non-Stem'",
+        "as": "color"
+      },
+      {
+        "filter": "datum.unemployment_rate != 0"
       }
     ],
     "mark": "bar",
@@ -23,15 +30,29 @@
         }
       },
       "x": {
-        "field": "Major_category",
+        "field": "Major",
         "type": "ordinal",
         "axis": {
-          "title": "Major Category"
+          "title": "Major",
+          "labels": false,
+          "ticks": false
         },
         "sort":{
           "field": "unemployment_rate",
           "op": "mean"
         }
+      },
+      "color": {
+        "field": "color", 
+        "type": "nominal",
+        "scale": {"range": ["#E57373", "#659CCA"]},
+        "legend": {
+          "title": ""
+        }
+      },
+      "tooltip": {
+        "field": "Major",
+        "type": "ordinal"
       }
     }
   }
