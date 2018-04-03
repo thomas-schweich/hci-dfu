@@ -4,7 +4,8 @@
   "transform": [
     {"calculate": "datum.Rank > 1 ? 'Woman' : 'Male'", "as": "gender"}
   ],
-  "mark": "bar",
+ 
+  "mark": "line",
   "encoding": {
     "y": {
       "field": "Median", "type": "quantitative",
@@ -16,8 +17,8 @@
       "axis": {"title": ""}
     },
     "color": {
-      "field": "gender", "type": "nominal",
-      "scale": {"range": ["#659CCA", " #EA98D2"]}
+      "field": "People", "type": "nominal",
+      "scale": {"range": ["#659CCA"]}
     }
   },
   "config": {
