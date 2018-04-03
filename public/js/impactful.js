@@ -1,7 +1,9 @@
 var money_img;
 var table;
-var SCALE_FACTOR = 500; // Dollars per pixel
-var curr_money = 100000;
+var SCALE_FACTOR = 300; // Dollars per pixel
+var curr_money = 50000;
+var desired_money = curr_money;
+var frameStep = 200;
 
 
 function createDropdown() {
@@ -13,7 +15,7 @@ function createDropdown() {
     }
     for (let major of majorSet) selector.option(major);
     selector.changed(function() { 
-        curr_money = averageIncome(selector.value());
+        desired_money = averageIncome(selector.value());
     });
 }
 
@@ -26,6 +28,19 @@ function setup() {
     createCanvas(750, 750);
     print(table);
     createDropdown();
+    imageMode(CENTER);
+    textAlign(CENTER);
+    textSize(50);
+}
+
+function updateDesired() {
+    if (desired_money > curr_money + frameStep) {
+        curr_money += frameStep;
+    } else if (desired_money < curr_money - frameStep) {
+        curr_money -= frameStep;
+    } else {
+        curr_money = desired_money;
+    }
 }
 
 function averageIncome(major) {
@@ -43,5 +58,7 @@ function averageIncome(major) {
 
 function draw() {
     background(255);
+    updateDesired();
     image(money_img, width/2, height/2, curr_money/SCALE_FACTOR, curr_money/SCALE_FACTOR);
+    text("$" + curr_money.toString(), width/2, height/6);
 }
