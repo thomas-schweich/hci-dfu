@@ -8,29 +8,29 @@
     }
   },
   "title": {
-    "text": "Recent Male Grads by Major Category"
+    "text": "Recent Female Grads by Major Category"
   },
   "data": [
     {
-      "name": "men_majors",
+      "name": "women_majors",
       "url": "https://raw.githubusercontent.com/thomas-schweich/hci-dfu/master/public/assets/recent-grads.csv",
       "format": {"type": "csv"},
       "transform": [
         {
           "type": "aggregate",
           "groupby": ["Major_category"],
-          "fields": ["Men", "Men"],
+          "fields": ["Women", "Women"],
           "ops": ["mean", "count"],
-          "as": ["Men_mean", "majors"]
+          "as": ["Women_mean", "majors"]
         },
         {
           "type": "formula",
-          "expr": "datum.Men_mean * datum.majors",
-          "as": "Men_totals"
+          "expr": "datum.Women_mean * datum.majors",
+          "as": "Women_totals"
         },
         {
           "type": "pie",
-          "field": "Men_totals"
+          "field": "Women_totals"
         }
       ]
     }
@@ -47,7 +47,7 @@
   "marks": [
     {
       "type": "arc",
-      "from": {"data": "men_majors"},
+      "from": {"data": "women_majors"},
       "encode": {
         "enter": {
           "x": {"field": {"group": "width"}, "mult": 0.5},
@@ -57,32 +57,9 @@
           "innerRadius": {"value": 0},
           "outerRadius": {"value": 80},
           "fill": {"scale": "color", "field": "Major_category"},
-          "tooltip": {"field": "Men_totals","type": "quantitative"}
+          "tooltip": {"field": "Women_totals","type": "quantitative"}
         }
       }
     }
-  ],
-  "legends": [
-  {
-    "fill": "color",
-    "encode": {
-      "title": {
-        "update": {
-          "fontSize": {"value": 14}
-        }
-      },
-      "symbols": {
-        "update": {
-          "stroke": {"value": "transparent"}
-        }
-      },
-      "legend": {
-        "update": {
-          "stroke": {"value": "#ccc"},
-          "strokeWidth": {"value": 1.5}
-        }
-      }
-    }
-  }
-]
+  ]
 }
