@@ -1,58 +1,65 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
     "data": {
-      "url": "https://raw.githubusercontent.com/thomas-schweich/hci-dfu/master/public/assets/all-ages.csv",
-      "format": {
-        "type": "csv"
-      }
+        "url": "https://raw.githubusercontent.com/thomas-schweich/hci-dfu/master/public/assets/all-ages.csv",
+        "format": {
+            "type": "csv"
+        }
     },
     "width": 1000,
+    "title": "Unemployment Rates by Major",
     "transform": [
-      {
-        "calculate": "(datum.Unemployed / datum.Total) * 100",
-        "as": "unemployment_rate"
-      }, {
-        "calculate": "(datum.Major_category == 'Agriculture & Natural Resources' || datum.Major_category == 'Biology & Life Science' || datum.Major_category == 'Engineering' || datum.Major_category == 'Physical Sciences' || datum.Major_category == 'Industrial Arts & Consumer Services' || datum.Major_category == 'Social Science' || datum.Major_category == 'Computers & Mathematics') ? 'Stem' : 'Non-Stem'",
-        "as": "color"
-      },
-      {
-        "filter": "datum.unemployment_rate != 0"
-      }
+        {
+            "calculate": "(datum.Unemployed / datum.Total) * 100",
+            "as": "unemployment_rate"
+        },
+        {
+            "calculate": "(datum.Major_category == 'Agriculture & Natural Resources' || datum.Major_category == 'Biology & Life Science' || datum.Major_category == 'Engineering' || datum.Major_category == 'Physical Sciences' || datum.Major_category == 'Industrial Arts & Consumer Services' || datum.Major_category == 'Social Science' || datum.Major_category == 'Computers & Mathematics') ? 'Stem' : 'Non-Stem'",
+            "as": "color"
+        },
+        {
+            "filter": "datum.unemployment_rate != 0"
+        }
     ],
     "mark": "bar",
     "encoding": {
-      "y": {
-        "field": "unemployment_rate",
-        "type": "quantitative",
-        "aggregate": "mean",
-        "axis": {
-          "title": "Unemployment Rate (%)"  
-        }
-      },
-      "x": {
-        "field": "Major",
-        "type": "ordinal",
-        "axis": {
-          "title": "Major",
-          "labels": false,
-          "ticks": false
+        "y": {
+            "field": "unemployment_rate",
+            "type": "quantitative",
+            "aggregate": "mean",
+            "axis": {
+                "title": "Unemployment Rate (%)"
+            }
         },
-        "sort":{
-          "field": "unemployment_rate",
-          "op": "mean"
+        "x": {
+            "field": "Major",
+            "type": "ordinal",
+            "axis": {
+                "title": "Major",
+                "labels": false,
+                "ticks": false
+            },
+            "sort": {
+                "field": "unemployment_rate",
+                "op": "mean"
+            }
+        },
+        "color": {
+            "field": "color",
+            "type": "nominal",
+            "scale": {
+                "range": [
+                    "#E57373",
+                    "#659CCA"
+                ]
+            },
+            "legend": {
+                "title": ""
+            }
+        },
+        "tooltip": {
+            "field": "Major",
+            "type": "ordinal"
         }
-      },
-      "color": {
-        "field": "color", 
-        "type": "nominal",
-        "scale": {"range": ["#E57373", "#659CCA"]},
-        "legend": {
-          "title": ""
-        }
-      },
-      "tooltip": {
-        "field": "Major",
-        "type": "ordinal"
-      }
     }
-  }
+}
