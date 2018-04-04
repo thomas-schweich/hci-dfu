@@ -4,7 +4,7 @@
   "transform": [
     {"calculate": "datum.Rank > 1 ? 'Woman' : 'Male'", "as": "gender"}
   ],
- 
+  "width": 1500,
   "mark": "line",
   "encoding": {
     "y": {
